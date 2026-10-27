@@ -1,0 +1,116 @@
+name: Defect
+description: The system violates a property that must hold.
+labels: ["defect"]
+body:
+  - type: textarea
+    id: invariant
+    attributes:
+      label: Violated invariant
+      description: |
+        The property the system must satisfy but currently does not.
+        State it as a predicate, not a symptom.
+      placeholder: "e.g., Vec2::angle_between(v, v) == 0 for every non-zero v."
+    validations:
+      required: true
+
+  - type: textarea
+    id: observed
+    attributes:
+      label: Observed behavior
+      description: |
+        What the system actually does.
+        Include the state transition path that triggers the violation.
+      placeholder: |
+        1. State before: v = (0.1, 0.3)
+        2. Transition: angle_between(v, v)
+        3. State after (violating): returns NaN — dot/(|a||b|) rounds to 1.0000001, acos is out of domain
+    validations:
+      required: true
+
+  - type: textarea
+    id: counterexample
+    attributes:
+      label: Counterexample test
+      description: |
+        The input and expected output that become the failing test.
+        This test is written and seen failing before the fix.
+      placeholder: "Input: angle_between((0.1, 0.3), (0.1, 0.3))  Expected: 0  Actual: NaN"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: failure_class
+    attributes:
+      label: Failure class
+      options:
+        - Safety (UB, use-after-free, use-after-move, data race)
+        - Correctness (wrong result, violated contract)
+        - Resource (leak, exhaustion, starvation)
+        - Performance (latency, throughput degradation)
+        - Liveness (deadlock, livelock, stall)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: caught_by
+    attributes:
+      label: Caught by
+      options:
+        - AddressSanitizer
+        - UndefinedBehaviorSanitizer
+        - clang-tidy
+        - Test
+        - Vulkan validation layer
+        - Manual observation
+    validations:
+      required: true
+
+  - type: dropdown
+    id: build
+    attributes:
+      label: Build
+      options:
+        - Debug
+        - Release
+        - Both
+    validations:
+      required: true
+
+  - type: textarea
+    id: boundary
+    attributes:
+      label: System boundary
+      description: |
+        Which module or subsystem boundary does this cross?
+        What is inside vs outside the failure?
+      placeholder: "e.g., Failure is inside glex/math — callers trust angle_between to return a finite value."
+    validations:
+      required: true
+
+  - type: textarea
+    id: constraint
+    attributes:
+      label: Missing or weak constraint
+      description: |
+        What constraint, if present and enforced, would make this failure impossible?
+        Remove it — what becomes unsafe. Strengthen it — what becomes impossible.
+      placeholder: "e.g., Clamp the cosine to [-1, 1] before acos."
+    validations:
+      required: false
+
+  - type: input
+    id: refs
+    attributes:
+      label: Guardrail / Decision
+      description: Related guardrail and decision IDs, if any.
+      placeholder: "e.g., G4, G9, D-006"
+    validations:
+      required: false
+
+  - type: textarea
+    id: traces
+    attributes:
+      label: Logs / traces / validation output
+      render: text
+    validations:
+      required: false
