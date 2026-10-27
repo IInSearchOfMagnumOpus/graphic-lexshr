@@ -1,0 +1,43 @@
+# CI: the same gates as a local build (G8), on every push and pull request.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:          # manual "Run workflow" button
+  schedule:
+    - cron: "0 3 * * *"       # every night at 03:00 UTC
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [Debug, Release]   # Debug = sanitizers on; Release = optimized
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y g++-14 ninja-build clang-tidy
+
+      # ASan crashes on recent runner kernels with high mmap randomization.
+      - name: Allow AddressSanitizer
+        if: matrix.build_type == 'Debug'
+        run: sudo sysctl vm.mmap_rnd_bits=28
+
+      - name: Configure
+        run: >
+          cmake -S . -B build -G Ninja
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          -DCMAKE_CXX_COMPILER=g++-14
+
+      - name: Build (warnings as errors + clang-tidy)
+        run: cmake --build build
+
+      - name: Test
+        run: ctest --test-dir build --output-on-failure
