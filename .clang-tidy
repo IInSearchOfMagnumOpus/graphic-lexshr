@@ -1,0 +1,8 @@
+# Static analysis gate (G6, G8). Runs on every build via CMake.
+Checks: >
+  -*,
+  bugprone-*,
+  -bugprone-easily-swappable-parameters,
+  clang-analyzer-*
+WarningsAsErrors: '*'
+HeaderFilterRegex: '.*/(include|src|tests)/.*'

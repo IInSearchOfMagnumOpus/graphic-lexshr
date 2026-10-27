@@ -9,7 +9,9 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 add_executable(glex src/main.cpp
         include/glex/math/vec2.h)
 target_include_directories(glex PRIVATE include)
+
 # Build gates (G8). Every target links this, so the flags live in one place (G1).
+
 add_library(glex_gates INTERFACE)
 target_compile_options(glex_gates INTERFACE
         -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Werror
@@ -37,3 +39,7 @@ target_link_libraries(glex_tests PRIVATE glex_gates GTest::gtest_main)
 
 include(GoogleTest)
 gtest_discover_tests(glex_tests)
+
+# Static analysis (G6). clang-tidy runs alongside the compiler on our own targets.
+find_program(CLANG_TIDY clang-tidy REQUIRED)
+set_target_properties(glex glex_tests PROPERTIES CXX_CLANG_TIDY ${CLANG_TIDY})
