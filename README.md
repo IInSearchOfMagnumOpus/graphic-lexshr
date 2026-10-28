@@ -8,6 +8,12 @@ A ground-up port of [gLexShrD](https://github.com/RITIKESHDUTT/gLexShrD): same g
 
 Early. The toolchain and quality gates are in place; the math core is next.
 
+For a peek into active development and ongoing work:
+- [Issue Tracker](https://github.com/IInSearchOfMagnumOpus/graphic-lexshr/issues)
+
+![Issues](https://img.shields.io/github/issues/IInSearchOfMagnumOpus/graphic-lexshr)
+![Closed Issues](https://img.shields.io/github/issues-closed/IInSearchOfMagnumOpus/graphic-lexshr)
+
 | Stage | What | State |
 |---|---|---|
 | A | Foundation: toolchain, gates, math core | In progress |
