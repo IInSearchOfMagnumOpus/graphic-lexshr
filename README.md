@@ -4,6 +4,16 @@ A Vulkan graphics engine with a math-first, animator-facing API, written in C++2
 
 A ground-up port of [gLexShrD](https://github.com/RITIKESHDUTT/gLexShrD): same goals, redesigned along the way.
 
+
+<p align="center">
+<img src="https://img.shields.io/badge/language-C%2B%2B23-00599C?logo=cplusplus&logoColor=white"/>
+<img src="https://img.shields.io/badge/backend-Vulkan_1.3-AC162C?logo=vulkan&logoColor=white"/>
+<img src="https://img.shields.io/badge/architecture-Math--First-8B5CF6"/>
+<img src="https://img.shields.io/badge/status-WIP-F59E0B"/>
+<img src="https://img.shields.io/badge/license-Apache%202.0-3B82F6"/><br>
+<img src="https://github.com/IInSearchOfMagnumOpus/graphic-lexshr/actions/workflows/ci.yml/badge.svg"/>
+</p>
+
 ## Status
 
 Early. The toolchain and quality gates are in place; the math core is next.
