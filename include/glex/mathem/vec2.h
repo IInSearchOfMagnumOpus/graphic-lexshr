@@ -1,7 +1,6 @@
 #pragma once
 
-namespace glex {
-
+namespace mathem {
     class Vec2 {
     public:
         constexpr Vec2() = default;
@@ -9,12 +8,12 @@ namespace glex {
 
         constexpr float x() const { return x_; }
         constexpr float y() const { return y_; }
-        void set_x(float v) { x_ = v; }
-        void set_y(float v) { y_ = v; }
-
     private:
         float x_{};
         float y_{};
     };
 
-} // namespace glex
+    [[nodiscard]] constexpr float dot(Vec2 a, Vec2 b) {
+        return a.x() * b.x() + a.y() * b.y();
+    }
+} // namespace glex::mathem

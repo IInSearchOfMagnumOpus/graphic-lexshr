@@ -7,7 +7,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_executable(glex src/main.cpp
-        include/glex/math/vec2.h)
+        include/glex/mathem/vec2.h)
 target_include_directories(glex PRIVATE include)
 
 # Build gates (G8). Every target links this, so the flags live in one place (G1).
