@@ -1,4 +1,5 @@
 #pragma once
+#include <cmath>
 
 namespace mathem {
     class Vec2 {
@@ -16,4 +17,9 @@ namespace mathem {
     [[nodiscard]] constexpr float dot(Vec2 a, Vec2 b) {
         return a.x() * b.x() + a.y() * b.y();
     }
+
+    [[nodiscard]] inline float length(Vec2 v) {
+        return std::sqrt(dot(v, v));
+    }
+
 } // namespace glex::mathem

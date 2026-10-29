@@ -22,3 +22,8 @@ TEST(Vec2, Dot) {
     constexpr mathem::Vec2 b{3.0f, 4.0f};
     EXPECT_EQ(mathem::dot(a, b), 11.0f);   // 1*3 + 2*4
 }
+
+TEST(Vec2, Length) {
+    constexpr mathem::Vec2 v{3.0f, 4.0f};
+    EXPECT_EQ(mathem::length(v), 5.0f);   // √(9 + 16)
+}
