@@ -21,5 +21,9 @@ namespace mathem {
     [[nodiscard]] inline float length(Vec2 v) {
         return std::sqrt(dot(v, v));
     }
-
+    
+    [[nodiscard]] inline Vec2 normalize(Vec2 v) {
+        const float len = length(v);
+        return Vec2{v.x() / len, v.y() / len};
+    }
 } // namespace glex::mathem

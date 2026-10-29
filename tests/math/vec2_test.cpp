@@ -27,3 +27,10 @@ TEST(Vec2, Length) {
     constexpr mathem::Vec2 v{3.0f, 4.0f};
     EXPECT_EQ(mathem::length(v), 5.0f);   // √(9 + 16)
 }
+
+TEST(Vec2, Normalize) {
+    constexpr mathem::Vec2 v{3.0f, 4.0f};
+    const auto n = mathem::normalize(v);
+    EXPECT_FLOAT_EQ(n.x(), 0.6f);
+    EXPECT_FLOAT_EQ(n.y(), 0.8f);
+}
