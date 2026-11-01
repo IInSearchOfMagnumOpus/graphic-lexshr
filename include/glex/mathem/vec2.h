@@ -19,8 +19,12 @@ namespace glex::mathem {
         return a.x() * b.x() + a.y() * b.y();
     }
 
+    [[nodiscard]] constexpr float length_sq(Vec2 v) {
+        return dot(v, v);
+    }
+
     [[nodiscard]] inline float length(Vec2 v) {
-        return std::sqrt(dot(v, v));
+        return std::sqrt(length_sq(v));
     }
 
     [[nodiscard]] inline Vec2 normalize(Vec2 v) {

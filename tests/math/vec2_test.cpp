@@ -28,6 +28,11 @@ TEST(Vec2, Length) {
     EXPECT_EQ(glex::mathem::length(v), 5.0f);   // √(9 + 16)
 }
 
+TEST(Vec2, LengthSq) {
+    constexpr glex::mathem::Vec2 v{3.0f, 4.0f};
+    EXPECT_EQ(glex::mathem::length_sq(v), 25.0f);   // 9 + 16
+}
+
 TEST(Vec2, Normalize) {
     constexpr glex::mathem::Vec2 v{3.0f, 4.0f};
     const auto n = glex::mathem::normalize(v);
