@@ -1,12 +1,12 @@
 //
 // Created by changemaker on 10/30/26.
 //
-#ifndef GLEX_ASSERT_H
-#define GLEX_ASSERT_H
+#pragma once
 
 #include <cstdio>
 #include <cstdlib>
 
+// D-004, D-013: checked in debug, compiled out in release.
 #ifdef NDEBUG
 #define GLEX_ASSERT(cond) ((void)0)
 #else
@@ -19,5 +19,3 @@
         }                                                                \
     } while (false)
 #endif
-
-#endif // GLEX_ASSERT_H

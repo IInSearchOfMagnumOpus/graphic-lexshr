@@ -1,5 +1,6 @@
 #pragma once
 #include <cmath>
+#include "glex/core/assert.h"
 
 namespace glex::mathem {
     class Vec2 {
@@ -23,7 +24,8 @@ namespace glex::mathem {
     }
 
     [[nodiscard]] inline Vec2 normalize(Vec2 v) {
-        const float len = length(v);
+        const auto len = length(v);
+        GLEX_ASSERT(len > 0);
         return Vec2{v.x() / len, v.y() / len};
     }
     

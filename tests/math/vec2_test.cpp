@@ -58,3 +58,10 @@ TEST(Vec2, ScaleByNumber) {
     EXPECT_EQ(s.x(), 2.0f);
     EXPECT_EQ(s.y(), 4.0f);
 }
+
+#ifndef NDEBUG
+TEST(Vec2, NormalizeZeroAsserts) {
+    constexpr glex::mathem::Vec2 v{};
+    EXPECT_DEATH((void)glex::mathem::normalize(v), "Assertion failed");
+}
+#endif
