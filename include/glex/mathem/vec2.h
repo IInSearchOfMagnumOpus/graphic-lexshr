@@ -41,6 +41,14 @@ namespace glex::mathem {
         return Vec2{a.x() - b.x(), a.y() - b.y()};
     }
 
+    [[nodiscard]] constexpr float distance_sq(Vec2 a, Vec2 b) {
+        return length_sq(b - a);
+    }
+
+    [[nodiscard]] inline float distance(Vec2 a, Vec2 b) {
+        return length(b - a);
+    }
+
     [[nodiscard]] constexpr Vec2 operator*(Vec2 v, float s) {
         return Vec2{v.x() * s, v.y() * s};
     }
