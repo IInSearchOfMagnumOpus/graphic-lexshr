@@ -10,12 +10,16 @@
 #ifdef NDEBUG
 #define GLEX_ASSERT(cond) ((void)0)
 #else
-#define GLEX_ASSERT(cond)                                                \
-    do {                                                                 \
-        if (!(cond)) {                                                   \
-            std::fprintf(stderr, "Assertion failed: %s (%s:%d)\n", #cond, \
-                         __FILE__, __LINE__);                            \
-            std::abort();                                                \
-        }                                                                \
+#include <stacktrace>
+#include <string>
+#define GLEX_ASSERT(cond)                                                 \
+    do {                                                                  \
+        if (!(cond)) {                                                    \
+            std::fprintf(stderr, "Assertion failed: %s (%s:%d)\n%s\n",    \
+                         #cond, __FILE__, __LINE__,                       \
+                         std::to_string(std::stacktrace::current())       \
+                             .c_str());                                   \
+            std::abort();                                                 \
+        }                                                                 \
     } while (false)
 #endif

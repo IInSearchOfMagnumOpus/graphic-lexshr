@@ -19,7 +19,7 @@ target_link_options(glex_gates INTERFACE
         $<$<CONFIG:Debug>:-fsanitize=address,undefined>)
 
 target_link_libraries(glex PRIVATE glex_gates)
-
+target_link_libraries(glex_gates INTERFACE $<$<CONFIG:Debug>:stdc++exp>)
 
 # Tests (D-003: GoogleTest)
 include(FetchContent)
