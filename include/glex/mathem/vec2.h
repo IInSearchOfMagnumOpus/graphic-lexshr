@@ -19,6 +19,11 @@ namespace glex::mathem {
         return a.x() * b.x() + a.y() * b.y();
     }
 
+    // Positive: b is anticlockwise from a (y up).
+    [[nodiscard]] constexpr float cross(Vec2 a, Vec2 b) {
+        return a.x() * b.y() - a.y() * b.x();
+    }
+
     [[nodiscard]] constexpr float length_sq(Vec2 v) {
         return dot(v, v);
     }

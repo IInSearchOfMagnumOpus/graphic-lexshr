@@ -83,3 +83,10 @@ TEST(Vec2, Distance) {
     EXPECT_EQ(glex::mathem::distance(a, b), 5.0f);
     EXPECT_EQ(glex::mathem::distance(b, a), 5.0f);       // same both ways
 }
+
+TEST(Vec2, Cross) {
+    constexpr glex::mathem::Vec2 a{1.0f, 0.0f};
+    EXPECT_EQ(glex::mathem::cross(a, glex::mathem::Vec2{1.0f, 1.0f}), 1.0f);    // anticlockwise
+    EXPECT_EQ(glex::mathem::cross(a, glex::mathem::Vec2{1.0f, -1.0f}), -1.0f);  // clockwise
+    EXPECT_EQ(glex::mathem::cross(a, glex::mathem::Vec2{2.0f, 0.0f}), 0.0f);    // same line
+}
