@@ -24,6 +24,16 @@ namespace glex::mathem {
         return a.x() * b.y() - a.y() * b.x();
     }
 
+    // Quarter turn anticlockwise (y up).
+    [[nodiscard]] constexpr Vec2 perp(Vec2 v) {
+        return Vec2{-v.y(), v.x()};
+    }
+
+    // Quarter turn clockwise (y up).
+    [[nodiscard]] constexpr Vec2 perp_cw(Vec2 v) {
+        return Vec2{v.y(), -v.x()};
+    }
+
     [[nodiscard]] constexpr float length_sq(Vec2 v) {
         return dot(v, v);
     }

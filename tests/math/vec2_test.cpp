@@ -70,6 +70,20 @@ TEST(Vec2, NormalizeZeroAsserts) {
     EXPECT_DEATH((void)glex::mathem::normalize(v), "Assertion failed");
 }
 #endif
+TEST(Vec2, Perp) {
+    constexpr glex::mathem::Vec2 v{3.0f, 4.0f};
+    constexpr auto p = glex::mathem::perp(v);
+    EXPECT_EQ(p.x(), -4.0f);
+    EXPECT_EQ(p.y(), 3.0f);
+}
+
+TEST(Vec2, PerpCw) {
+    constexpr glex::mathem::Vec2 v{3.0f, 4.0f};
+    constexpr auto p = glex::mathem::perp_cw(v);
+    EXPECT_EQ(p.x(), 4.0f);
+    EXPECT_EQ(p.y(), -3.0f);
+}
+
 
 TEST(Vec2, DistanceSq) {
     constexpr glex::mathem::Vec2 a{1.0f, 1.0f};
