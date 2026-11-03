@@ -165,3 +165,14 @@ TEST(Vec2, ApproxEq) {
     EXPECT_FALSE(gm::approx_eq(gm::Vec2{1.0f, 2.0f}, gm::Vec2{1.0f, 2.001f}));
     EXPECT_FALSE(gm::approx_eq(gm::Vec2{5e-4f, 0.0f}, gm::Vec2{0.0f, 0.0f}));      // D-017: not zero
 }
+
+TEST(Vec2, TryNormalize) {
+    const std::optional<gm::Vec2> n = gm::try_normalize(gm::Vec2{3.0f, 4.0f});
+    if (!n.has_value()) {
+        FAIL() << "expected a direction for (3, 4)";
+    }
+    EXPECT_FLOAT_EQ(n->x(), 0.6f);
+    EXPECT_FLOAT_EQ(n->y(), 0.8f);
+    EXPECT_FALSE(gm::try_normalize(gm::Vec2{0.0f, 0.0f}).has_value());
+    EXPECT_FALSE(gm::try_normalize(gm::Vec2{5e-7f, 0.0f}).has_value());  // too short for a direction
+}

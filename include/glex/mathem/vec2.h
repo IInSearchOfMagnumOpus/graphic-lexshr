@@ -2,6 +2,7 @@
 #include <cmath>
 #include "glex/core/assert.h"
 #include "glex//mathem/scalar.h"
+#include <optional>
 
 namespace glex::mathem {
     class Vec2 {
@@ -43,12 +44,7 @@ namespace glex::mathem {
         return std::sqrt(length_sq(v));
     }
 
-    [[nodiscard]] inline Vec2 normalize(Vec2 v) {
-        const float len = length(v);
-        GLEX_ASSERT(len > 0);
-        return Vec2{v.x() / len, v.y() / len};
-    }
-    
+
     [[nodiscard]] constexpr Vec2 operator+(Vec2 a, Vec2 b) {
         return Vec2{a.x() + b.x(), a.y() + b.y()};
     }
@@ -95,7 +91,21 @@ namespace glex::mathem {
         return std::abs(length_sq(v) - 1.0f) < 2.0f * EPSILON;
     }
 
+    [[nodiscard]] inline Vec2 normalize(Vec2 v) {
+        GLEX_ASSERT(!is_zero(v));
+        const float len = length(v);
+        return v / len;
+    }
+
     [[nodiscard]] constexpr bool approx_eq(Vec2 a, Vec2 b) {
         return is_zero(a - b);
+    }
+
+    // No direction when v is zero (D-017); the caller must check.
+    [[nodiscard]] inline std::optional<Vec2> try_normalize(Vec2 v) {
+        if (is_zero(v)) {
+            return std::nullopt;
+        }
+        return normalize(v);
     }
 } // namespace glex::mathem
