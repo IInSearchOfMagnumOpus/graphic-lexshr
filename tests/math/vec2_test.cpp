@@ -77,6 +77,11 @@ TEST(Vec2, DivideByZeroAsserts) {
     EXPECT_DEATH((void)(v / 0.0f), "operator/");
 }
 
+TEST(Vec2, ProjectOntoZeroAsserts) {
+    constexpr gm::Vec2 u{3.0f, 4.0f};
+    EXPECT_DEATH((void)gm::project_onto(u, gm::Vec2{0.0f, 0.0f}), "project_onto");
+}
+
 #endif
 TEST(Vec2, Perp) {
     constexpr gm::Vec2 v{3.0f, 4.0f};
@@ -175,4 +180,21 @@ TEST(Vec2, TryNormalize) {
     EXPECT_FLOAT_EQ(n->y(), 0.8f);
     EXPECT_FALSE(gm::try_normalize(gm::Vec2{0.0f, 0.0f}).has_value());
     EXPECT_FALSE(gm::try_normalize(gm::Vec2{5e-7f, 0.0f}).has_value());  // too short for a direction
+}
+
+TEST(Vec2, ProjectOnto) {
+    constexpr gm::Vec2 u{3.0f, 4.0f};
+    constexpr gm::Vec2 p = gm::project_onto(u, gm::Vec2{2.0f, 0.0f});  // onto's length doesn't matter
+    EXPECT_EQ(p.x(), 3.0f);
+    EXPECT_EQ(p.y(), 0.0f);
+}
+
+TEST(Vec2, RejectFrom) {
+    constexpr gm::Vec2 u{4.0f, 2.0f};
+    constexpr gm::Vec2 onto{1.0f, 1.0f};
+    constexpr gm::Vec2 r = gm::reject_from(u, onto);
+    EXPECT_EQ(r.x(), 1.0f);
+    EXPECT_EQ(r.y(), -1.0f);
+    EXPECT_EQ(gm::dot(r, onto), 0.0f);                              // right angle to onto
+    EXPECT_TRUE(gm::approx_eq(gm::project_onto(u, onto) + r, u));   // the two parts rebuild u
 }

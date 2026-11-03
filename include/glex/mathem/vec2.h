@@ -108,4 +108,15 @@ namespace glex::mathem {
         }
         return normalize(v);
     }
+
+    // Shadow of u on the line through onto. onto must not be zero (D-004).
+    [[nodiscard]] constexpr Vec2 project_onto(Vec2 u, Vec2 onto) {
+        GLEX_ASSERT(!is_zero(onto));
+        return onto * (dot(u, onto) / length_sq(onto));
+    }
+
+    // Part of u at a right angle to onto: u minus its shadow. onto must not be zero.
+    [[nodiscard]] constexpr Vec2 reject_from(Vec2 u, Vec2 onto) {
+        return u - project_onto(u, onto);
+    }
 } // namespace glex::mathem
