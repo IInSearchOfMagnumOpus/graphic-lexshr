@@ -149,3 +149,12 @@ TEST(Vec2, IsZero) {
     EXPECT_TRUE(gm::is_zero(gm::Vec2{5e-7f, 0.0f}));   // inside the circle
     EXPECT_FALSE(gm::is_zero(gm::Vec2{8e-7f, 8e-7f})); // in the box's corner, outside the circle
 }
+
+
+TEST(Vec2, IsNormalized) {
+    EXPECT_TRUE(gm::is_normalized(gm::Vec2{1.0f, 0.0f}));
+    EXPECT_TRUE(gm::is_normalized(gm::normalize(gm::Vec2{3.0f, 4.0f})));
+    EXPECT_TRUE(gm::is_normalized(gm::Vec2{1.0000005f, 0.0f}));  // off by 5e-7: within EPSILON
+    EXPECT_FALSE(gm::is_normalized(gm::Vec2{1.001f, 0.0f}));
+    EXPECT_FALSE(gm::is_normalized(gm::Vec2{0.0f, 0.0f}));
+}
