@@ -91,7 +91,13 @@ TEST(Vec2, AngleOfZeroAsserts) {
     EXPECT_DEATH((void)gm::angle(gm::Vec2{0.0f, 0.0f}), "angle");
 }
 
+TEST(Vec2, SignedAngleToZeroAsserts) {
+    const gm::Vec2 v{1.0f, 0.0f};
+    EXPECT_DEATH((void)gm::signed_angle_to(v, gm::Vec2{0.0f, 0.0f}), "signed_angle_to");
+}
+
 #endif
+
 TEST(Vec2, Perp) {
     constexpr gm::Vec2 v{3.0f, 4.0f};
     constexpr auto p = gm::perp(v);
@@ -239,4 +245,20 @@ TEST(Vec2, Angle) {
     EXPECT_FLOAT_EQ(gm::angle(gm::Vec2{0.0f, 2.0f}), pi / 2.0f);
     EXPECT_FLOAT_EQ(gm::angle(gm::Vec2{1.0f, 1.0f}), pi / 4.0f);
     EXPECT_FLOAT_EQ(gm::angle(gm::Vec2{-1.0f, -1.0f}), -3.0f * pi / 4.0f);  // atan(y/x) would say π/4
+}
+TEST(Vec2, MinMax) {
+    const gm::Vec2 a{1.0f, 5.0f};
+    const gm::Vec2 b{4.0f, 3.0f};
+    const gm::Vec2 lo = gm::min(a, b);
+    const gm::Vec2 hi = gm::max(a, b);
+    EXPECT_EQ(lo.x(), 1.0f);
+    EXPECT_EQ(lo.y(), 3.0f);   // the two parts come from different arrows
+    EXPECT_EQ(hi.x(), 4.0f);
+    EXPECT_EQ(hi.y(), 5.0f);
+}
+
+TEST(Vec2, Abs) {
+    const gm::Vec2 v = gm::abs(gm::Vec2{-3.0f, 4.0f});
+    EXPECT_EQ(v.x(), 3.0f);
+    EXPECT_EQ(v.y(), 4.0f);
 }

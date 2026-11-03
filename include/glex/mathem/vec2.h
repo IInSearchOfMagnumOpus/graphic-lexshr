@@ -140,4 +140,19 @@ namespace glex::mathem {
         GLEX_ASSERT(!is_zero(v));
         return std::atan2(v.y(), v.x());
     }
+
+    // Per-part minimum: (smaller x, smaller y). Gives a box's low corner.
+    [[nodiscard]] constexpr Vec2 min(Vec2 a, Vec2 b) {
+        return Vec2{std::min(a.x(), b.x()), std::min(a.y(), b.y())};
+    }
+
+    // Per-part maximum: (larger x, larger y). Gives a box's high corner.
+    [[nodiscard]] constexpr Vec2 max(Vec2 a, Vec2 b) {
+        return Vec2{std::max(a.x(), b.x()), std::max(a.y(), b.y())};
+    }
+
+    // Per-part size: drops the signs.
+    [[nodiscard]] inline Vec2 abs(Vec2 v) {
+        return Vec2{std::abs(v.x()), std::abs(v.y())};
+    }
 } // namespace glex::mathem
