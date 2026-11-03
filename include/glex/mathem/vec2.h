@@ -43,7 +43,7 @@ namespace glex::mathem {
     }
 
     [[nodiscard]] inline Vec2 normalize(Vec2 v) {
-        const auto len = length(v);
+        const float len = length(v);
         GLEX_ASSERT(len > 0);
         return Vec2{v.x() / len, v.y() / len};
     }
@@ -56,6 +56,10 @@ namespace glex::mathem {
         return Vec2{a.x() - b.x(), a.y() - b.y()};
     }
 
+    [[nodiscard]] constexpr Vec2 operator-(Vec2 v) {
+        return Vec2{-v.x(), -v.y()};
+    }
+    
     [[nodiscard]] constexpr float distance_sq(Vec2 a, Vec2 b) {
         return length_sq(b - a);
     }
