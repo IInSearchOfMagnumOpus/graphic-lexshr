@@ -129,4 +129,9 @@ namespace glex::mathem {
     [[nodiscard]] inline Vec2 from_angle(float radians) {
         return Vec2{std::cos(radians), std::sin(radians)};
     }
+
+    [[nodiscard]] inline Vec2 rotate(Vec2 v, float radians) {
+        const Vec2 e = from_angle(radians);
+        return e * v.x() + perp(e) * v.y();
+    }
 } // namespace glex::mathem

@@ -219,3 +219,12 @@ TEST(Vec2, FromAngle) {
     EXPECT_TRUE(gm::approx_eq(gm::from_angle(pi), gm::Vec2{-1.0f, 0.0f}));
     EXPECT_TRUE(gm::is_normalized(gm::from_angle(1.0f)));   // always length 1
 }
+
+TEST(Vec2, Rotate) {
+    constexpr float pi = std::numbers::pi_v<float>;
+    const gm::Vec2 v{3.0f, 4.0f};
+    EXPECT_TRUE(gm::approx_eq(gm::rotate(gm::Vec2{1.0f, 0.0f}, pi / 2.0f), gm::Vec2{0.0f, 1.0f}));
+    EXPECT_TRUE(gm::approx_eq(gm::rotate(v, pi / 2.0f), gm::perp(v)));   // quarter turn = perp
+    EXPECT_TRUE(gm::approx_eq(gm::rotate(v, pi), -v));                    // half turn = flip
+    EXPECT_FLOAT_EQ(gm::length(gm::rotate(v, 1.0f)), gm::length(v));      // turning keeps the length
+}
