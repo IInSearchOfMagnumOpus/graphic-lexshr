@@ -7,6 +7,8 @@
 namespace glex::mathem {
     class Vec2 {
     public:
+        static const Vec2 ZERO;
+        static const Vec2 ONE;
         constexpr Vec2() = default;
         constexpr Vec2(float x, float y) : x_(x), y_(y) {}
 
@@ -16,7 +18,10 @@ namespace glex::mathem {
         float x_{};
         float y_{};
     };
+    inline constexpr Vec2 Vec2::ZERO{0.0f, 0.0f};
 
+    inline constexpr Vec2 Vec2::ONE{1.0f, 1.0f};
+    
     [[nodiscard]] constexpr float dot(Vec2 a, Vec2 b) {
         return a.x() * b.x() + a.y() * b.y();
     }
@@ -84,6 +89,16 @@ namespace glex::mathem {
 
     [[nodiscard]] constexpr bool is_zero(Vec2 v) {
         return length_sq(v) < EPSILON * EPSILON;
+    }
+    // Turn from a to b in radians: positive anticlockwise, between -π and π. Neither may be zero.
+    [[nodiscard]] inline float signed_angle_to(Vec2 a, Vec2 b) {
+        GLEX_ASSERT(!is_zero(a) && !is_zero(b));
+        return std::atan2(cross(a, b), dot(a, b));
+    }
+
+    // Size of the turn between a and b, between 0 and π. Neither may be zero.
+    [[nodiscard]] inline float angle_between(Vec2 a, Vec2 b) {
+        return std::abs(signed_angle_to(a, b));
     }
 
     // Length within EPSILON of 1. Near 1, squaring doubles a small gap (D-017).

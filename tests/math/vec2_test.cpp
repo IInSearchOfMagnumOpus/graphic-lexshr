@@ -262,3 +262,24 @@ TEST(Vec2, Abs) {
     EXPECT_EQ(v.x(), 3.0f);
     EXPECT_EQ(v.y(), 4.0f);
 }
+TEST(Vec2, SignedAngleTo) {
+    constexpr float pi = std::numbers::pi_v<float>;
+    const gm::Vec2 x_axis{1.0f, 0.0f};
+    const gm::Vec2 y_axis{0.0f, 1.0f};
+    EXPECT_FLOAT_EQ(gm::signed_angle_to(x_axis, y_axis), pi / 2.0f);    // anticlockwise: positive
+    EXPECT_FLOAT_EQ(gm::signed_angle_to(y_axis, x_axis), -pi / 2.0f);   // clockwise: negative
+}
+
+TEST(Vec2, AngleBetween) {
+    constexpr float pi = std::numbers::pi_v<float>;
+    EXPECT_FLOAT_EQ(gm::angle_between(gm::Vec2{0.0f, 1.0f}, gm::Vec2{1.0f, 0.0f}), pi / 2.0f);
+    const gm::Vec2 v{0.1f, 0.3f};
+    EXPECT_EQ(gm::angle_between(v, v), 0.0f);   // same arrow: 0, never NaN (G9)
+}
+
+TEST(Vec2, Constants) {
+    EXPECT_EQ(gm::Vec2::ZERO.x(), 0.0f);
+    EXPECT_EQ(gm::Vec2::ZERO.y(), 0.0f);
+    EXPECT_EQ(gm::Vec2::ONE.x(), 1.0f);
+    EXPECT_EQ(gm::Vec2::ONE.y(), 1.0f);
+}
