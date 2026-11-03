@@ -158,3 +158,10 @@ TEST(Vec2, IsNormalized) {
     EXPECT_FALSE(gm::is_normalized(gm::Vec2{1.001f, 0.0f}));
     EXPECT_FALSE(gm::is_normalized(gm::Vec2{0.0f, 0.0f}));
 }
+
+TEST(Vec2, ApproxEq) {
+    EXPECT_TRUE(gm::approx_eq(gm::Vec2{1.0f, 2.0f}, gm::Vec2{1.0f, 2.0f}));
+    EXPECT_TRUE(gm::approx_eq(gm::Vec2{1.0f, 2.0f}, gm::Vec2{1.0f, 2.0000005f}));  // 5e-7 apart
+    EXPECT_FALSE(gm::approx_eq(gm::Vec2{1.0f, 2.0f}, gm::Vec2{1.0f, 2.001f}));
+    EXPECT_FALSE(gm::approx_eq(gm::Vec2{5e-4f, 0.0f}, gm::Vec2{0.0f, 0.0f}));      // D-017: not zero
+}

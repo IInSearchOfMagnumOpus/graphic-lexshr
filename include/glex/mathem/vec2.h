@@ -89,9 +89,13 @@ namespace glex::mathem {
     [[nodiscard]] constexpr bool is_zero(Vec2 v) {
         return length_sq(v) < EPSILON * EPSILON;
     }
-    
+
     // Length within EPSILON of 1. Near 1, squaring doubles a small gap (D-017).
     [[nodiscard]] inline bool is_normalized(Vec2 v) {
         return std::abs(length_sq(v) - 1.0f) < 2.0f * EPSILON;
+    }
+
+    [[nodiscard]] constexpr bool approx_eq(Vec2 a, Vec2 b) {
+        return is_zero(a - b);
     }
 } // namespace glex::mathem
