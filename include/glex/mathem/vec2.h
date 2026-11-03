@@ -119,4 +119,10 @@ namespace glex::mathem {
     [[nodiscard]] constexpr Vec2 reject_from(Vec2 u, Vec2 onto) {
         return u - project_onto(u, onto);
     }
+
+    [[nodiscard]] inline Vec2 reflect(Vec2 v, Vec2 n) {
+        GLEX_ASSERT(is_normalized(n));
+        return v - n * (2.0f * dot(v, n));
+    }
+    
 } // namespace glex::mathem

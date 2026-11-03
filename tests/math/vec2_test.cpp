@@ -82,6 +82,11 @@ TEST(Vec2, ProjectOntoZeroAsserts) {
     EXPECT_DEATH((void)gm::project_onto(u, gm::Vec2{0.0f, 0.0f}), "project_onto");
 }
 
+TEST(Vec2, ReflectNonUnitNormalAsserts) {
+    const gm::Vec2 v{3.0f, -4.0f};
+    EXPECT_DEATH((void)gm::reflect(v, gm::Vec2{0.0f, 2.0f}), "reflect");
+}
+
 #endif
 TEST(Vec2, Perp) {
     constexpr gm::Vec2 v{3.0f, 4.0f};
@@ -197,4 +202,12 @@ TEST(Vec2, RejectFrom) {
     EXPECT_EQ(r.y(), -1.0f);
     EXPECT_EQ(gm::dot(r, onto), 0.0f);                              // right angle to onto
     EXPECT_TRUE(gm::approx_eq(gm::project_onto(u, onto) + r, u));   // the two parts rebuild u
+}
+
+TEST(Vec2, Reflect) {
+    const gm::Vec2 v{3.0f, -4.0f};
+    const gm::Vec2 r = gm::reflect(v, gm::Vec2{0.0f, 1.0f});
+    EXPECT_EQ(r.x(), 3.0f);
+    EXPECT_EQ(r.y(), 4.0f);
+    EXPECT_FLOAT_EQ(gm::length(r), gm::length(v));   // a bounce keeps the speed
 }
