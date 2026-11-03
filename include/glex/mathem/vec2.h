@@ -68,4 +68,9 @@ namespace glex::mathem {
         return Vec2{v.x() * s, v.y() * s};
     }
 
+    [[nodiscard]] constexpr Vec2 operator*(float s, Vec2 v) {
+        return v * s;
+    }
+
+
 } // namespace glex::mathem

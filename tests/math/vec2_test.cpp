@@ -104,3 +104,10 @@ TEST(Vec2, Cross) {
     EXPECT_EQ(glex::mathem::cross(a, glex::mathem::Vec2{1.0f, -1.0f}), -1.0f);  // clockwise
     EXPECT_EQ(glex::mathem::cross(a, glex::mathem::Vec2{2.0f, 0.0f}), 0.0f);    // same line
 }
+
+TEST(Vec2, ScaleNumberFirst) {
+    constexpr glex::mathem::Vec2 v{1.0f, 2.0f};
+    constexpr auto s = 2.0f * v;
+    EXPECT_EQ(s.x(), 2.0f);
+    EXPECT_EQ(s.y(), 4.0f);
+}
