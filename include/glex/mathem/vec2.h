@@ -134,4 +134,10 @@ namespace glex::mathem {
         const Vec2 e = from_angle(radians);
         return e * v.x() + perp(e) * v.y();
     }
+
+    // Angle of v in radians, anticlockwise from +x, between -π and π. v must not be zero.
+    [[nodiscard]] inline float angle(Vec2 v) {
+        GLEX_ASSERT(!is_zero(v));
+        return std::atan2(v.y(), v.x());
+    }
 } // namespace glex::mathem

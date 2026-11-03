@@ -87,6 +87,10 @@ TEST(Vec2, ReflectNonUnitNormalAsserts) {
     EXPECT_DEATH((void)gm::reflect(v, gm::Vec2{0.0f, 2.0f}), "reflect");
 }
 
+TEST(Vec2, AngleOfZeroAsserts) {
+    EXPECT_DEATH((void)gm::angle(gm::Vec2{0.0f, 0.0f}), "angle");
+}
+
 #endif
 TEST(Vec2, Perp) {
     constexpr gm::Vec2 v{3.0f, 4.0f};
@@ -227,4 +231,12 @@ TEST(Vec2, Rotate) {
     EXPECT_TRUE(gm::approx_eq(gm::rotate(v, pi / 2.0f), gm::perp(v)));   // quarter turn = perp
     EXPECT_TRUE(gm::approx_eq(gm::rotate(v, pi), -v));                    // half turn = flip
     EXPECT_FLOAT_EQ(gm::length(gm::rotate(v, 1.0f)), gm::length(v));      // turning keeps the length
+}
+
+TEST(Vec2, Angle) {
+    constexpr float pi = std::numbers::pi_v<float>;
+    EXPECT_FLOAT_EQ(gm::angle(gm::Vec2{1.0f, 0.0f}), 0.0f);
+    EXPECT_FLOAT_EQ(gm::angle(gm::Vec2{0.0f, 2.0f}), pi / 2.0f);
+    EXPECT_FLOAT_EQ(gm::angle(gm::Vec2{1.0f, 1.0f}), pi / 4.0f);
+    EXPECT_FLOAT_EQ(gm::angle(gm::Vec2{-1.0f, -1.0f}), -3.0f * pi / 4.0f);  // atan(y/x) would say π/4
 }
