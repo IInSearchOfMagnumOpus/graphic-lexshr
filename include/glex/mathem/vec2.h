@@ -1,6 +1,7 @@
 #pragma once
 #include <cmath>
 #include "glex/core/assert.h"
+#include "glex//mathem/scalar.h"
 
 namespace glex::mathem {
     class Vec2 {
@@ -83,5 +84,9 @@ namespace glex::mathem {
 
     [[nodiscard]] constexpr Vec2 lerp(Vec2 a, Vec2 b, float t) {
         return a + (b - a) * t;
+    }
+
+    [[nodiscard]] constexpr bool is_zero(Vec2 v) {
+        return length_sq(v) < EPSILON * EPSILON;
     }
 } // namespace glex::mathem

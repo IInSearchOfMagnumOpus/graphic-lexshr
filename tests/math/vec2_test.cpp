@@ -143,3 +143,9 @@ TEST(Vec2, Lerp) {
     EXPECT_EQ(mid.y(), 0.0f);
     EXPECT_EQ(end.x(), 10.0f);
 }
+
+TEST(Vec2, IsZero) {
+    EXPECT_TRUE(gm::is_zero(gm::Vec2{0.0f, 0.0f}));
+    EXPECT_TRUE(gm::is_zero(gm::Vec2{5e-7f, 0.0f}));   // inside the circle
+    EXPECT_FALSE(gm::is_zero(gm::Vec2{8e-7f, 8e-7f})); // in the box's corner, outside the circle
+}
