@@ -124,5 +124,9 @@ namespace glex::mathem {
         GLEX_ASSERT(is_normalized(n));
         return v - n * (2.0f * dot(v, n));
     }
-    
+
+    // Length-1 arrow at an angle in radians, anticlockwise from +x (y up).
+    [[nodiscard]] inline Vec2 from_angle(float radians) {
+        return Vec2{std::cos(radians), std::sin(radians)};
+    }
 } // namespace glex::mathem

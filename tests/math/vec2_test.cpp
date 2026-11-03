@@ -211,3 +211,11 @@ TEST(Vec2, Reflect) {
     EXPECT_EQ(r.y(), 4.0f);
     EXPECT_FLOAT_EQ(gm::length(r), gm::length(v));   // a bounce keeps the speed
 }
+
+TEST(Vec2, FromAngle) {
+    constexpr float pi = std::numbers::pi_v<float>;
+    EXPECT_TRUE(gm::approx_eq(gm::from_angle(0.0f), gm::Vec2{1.0f, 0.0f}));
+    EXPECT_TRUE(gm::approx_eq(gm::from_angle(pi / 2.0f), gm::Vec2{0.0f, 1.0f}));
+    EXPECT_TRUE(gm::approx_eq(gm::from_angle(pi), gm::Vec2{-1.0f, 0.0f}));
+    EXPECT_TRUE(gm::is_normalized(gm::from_angle(1.0f)));   // always length 1
+}
