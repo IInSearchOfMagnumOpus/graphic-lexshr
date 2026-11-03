@@ -69,6 +69,12 @@ TEST(Vec2, NormalizeZeroAsserts) {
     constexpr glex::mathem::Vec2 v{};
     EXPECT_DEATH((void)glex::mathem::normalize(v), "Assertion failed");
 }
+
+TEST(Vec2, DivideByZeroAsserts) {
+    constexpr glex::mathem::Vec2 v{1.0f, 1.0f};
+    EXPECT_DEATH((void)(v / 0.0f), "operator/");
+}
+
 #endif
 TEST(Vec2, Perp) {
     constexpr glex::mathem::Vec2 v{3.0f, 4.0f};
@@ -110,4 +116,11 @@ TEST(Vec2, ScaleNumberFirst) {
     constexpr auto s = 2.0f * v;
     EXPECT_EQ(s.x(), 2.0f);
     EXPECT_EQ(s.y(), 4.0f);
+}
+
+TEST(Vec2, DivideByNumber) {
+    constexpr glex::mathem::Vec2 v{2.0f, 4.0f};
+    constexpr auto d = v / 2.0f;
+    EXPECT_EQ(d.x(), 1.0f);
+    EXPECT_EQ(d.y(), 2.0f);
 }

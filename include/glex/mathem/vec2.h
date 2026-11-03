@@ -72,5 +72,9 @@ namespace glex::mathem {
         return v * s;
     }
 
+    [[nodiscard]] constexpr Vec2 operator/(Vec2 v, float s) {
+        GLEX_ASSERT(s != 0.0f);
+        return Vec2{v.x() / s, v.y() / s};
+    }
 
 } // namespace glex::mathem
