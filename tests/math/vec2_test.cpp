@@ -133,3 +133,13 @@ TEST(Vec2, Negate) {
     EXPECT_EQ(n.x(), -3.0f);
     EXPECT_EQ(n.y(), -4.0f);
 }
+
+TEST(Vec2, Lerp) {
+    constexpr gm::Vec2 a{0.0f, 0.0f};
+    constexpr gm::Vec2 b{10.0f, 0.0f};
+    constexpr gm::Vec2 mid = gm::lerp(a, b, 0.25f);
+    constexpr gm::Vec2 end = gm::lerp(a, b, 1.0f);
+    EXPECT_EQ(mid.x(), 2.5f);
+    EXPECT_EQ(mid.y(), 0.0f);
+    EXPECT_EQ(end.x(), 10.0f);
+}
