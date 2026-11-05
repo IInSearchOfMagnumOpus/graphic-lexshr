@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.25)
-project(glex CXX)
+project(glex C CXX)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -47,3 +47,24 @@ gtest_discover_tests(glex_tests)
 # Static analysis (G6). clang-tidy runs alongside the compiler on our own targets.
 find_program(CLANG_TIDY clang-tidy REQUIRED)
 set_target_properties(glex glex_tests PROPERTIES CXX_CLANG_TIDY ${CLANG_TIDY})
+
+
+# Windowing (D-005): raw Wayland. xdg-shell is generated, never hand-written.
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(WAYLAND REQUIRED IMPORTED_TARGET wayland-client)
+pkg_get_variable(WAYLAND_PROTOCOLS_DIR wayland-protocols pkgdatadir)
+find_program(WAYLAND_SCANNER wayland-scanner REQUIRED)
+
+set(XDG_SHELL_XML ${WAYLAND_PROTOCOLS_DIR}/stable/xdg-shell/xdg-shell.xml)
+set(GEN_DIR ${CMAKE_CURRENT_BINARY_DIR}/protocols)
+add_custom_command(
+        OUTPUT ${GEN_DIR}/xdg-shell-client-protocol.h ${GEN_DIR}/xdg-shell-protocol.c
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${GEN_DIR}
+        COMMAND ${WAYLAND_SCANNER} client-header ${XDG_SHELL_XML} ${GEN_DIR}/xdg-shell-client-protocol.h
+        COMMAND ${WAYLAND_SCANNER} private-code ${XDG_SHELL_XML} ${GEN_DIR}/xdg-shell-protocol.c
+        DEPENDS ${XDG_SHELL_XML}
+        VERBATIM)
+
+add_library(glex_wayland_protocols STATIC ${GEN_DIR}/xdg-shell-protocol.c)
+target_include_directories(glex_wayland_protocols SYSTEM PUBLIC ${GEN_DIR})
+target_link_libraries(glex_wayland_protocols PUBLIC PkgConfig::WAYLAND)
