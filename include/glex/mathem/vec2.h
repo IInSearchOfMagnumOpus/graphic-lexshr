@@ -3,9 +3,13 @@
 #include "glex/core/assert.h"
 #include "glex//mathem/scalar.h"
 #include <optional>
+#include <algorithm>
 
 namespace glex::mathem {
     class Vec2 {
+    private:
+        float x_{};
+        float y_{};
     public:
         static const Vec2 ZERO;
         static const Vec2 ONE;
@@ -14,14 +18,11 @@ namespace glex::mathem {
 
         constexpr float x() const { return x_; }
         constexpr float y() const { return y_; }
-    private:
-        float x_{};
-        float y_{};
     };
     inline constexpr Vec2 Vec2::ZERO{0.0f, 0.0f};
 
     inline constexpr Vec2 Vec2::ONE{1.0f, 1.0f};
-    
+
     [[nodiscard]] constexpr float dot(Vec2 a, Vec2 b) {
         return a.x() * b.x() + a.y() * b.y();
     }
