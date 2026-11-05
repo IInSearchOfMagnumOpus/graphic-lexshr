@@ -66,4 +66,21 @@ namespace glex::mathem {
     [[nodiscard]] constexpr Rect2 merge(Rect2 a, Rect2 b) {
         return Rect2{min(a.min(), b.min()), max(a.max(), b.max())};
     }
+
+    // Same size, moved by v.
+    [[nodiscard]] constexpr Rect2 translate(Rect2 r, Vec2 v) {
+        return Rect2{r.min() + v, r.max() + v};
+    }
+
+    // No area: zero width or height, so contains() is false everywhere.
+    // Exact on purpose: a width of 1e-7 still contains its min edge, so it isn't empty.
+    [[nodiscard]] constexpr bool is_empty(Rect2 r) {
+        return r.min().x() == r.max().x() || r.min().y() == r.max().y();
+    }
+
+    // Both corners within EPSILON (D-017).
+    [[nodiscard]] constexpr bool approx_eq(Rect2 a, Rect2 b) {
+        return approx_eq(a.min(), b.min()) && approx_eq(a.max(), b.max());
+    }
+
 } // namespace glex::mathem

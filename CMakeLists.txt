@@ -36,6 +36,7 @@ add_executable(glex_tests
         tests/math/vec2_test.cpp
         tests/math/scalar_test.cpp
         tests/math/point2_test.cpp
+        tests/math/rect2_test.cpp
 )
 target_include_directories(glex_tests PRIVATE include)
 target_link_libraries(glex_tests PRIVATE glex_gates GTest::gtest_main)

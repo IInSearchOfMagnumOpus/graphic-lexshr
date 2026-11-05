@@ -76,7 +76,7 @@ TEST(Rect2, Intersection) {
         gm::Rect2{gm::Point2{0.0f, 0.0f}, gm::Point2{10.0f, 10.0f}},
         gm::Rect2{gm::Point2{5.0f, 5.0f}, gm::Point2{15.0f, 15.0f}});
     ASSERT_TRUE(i.has_value());
-    expect_rect(*i, 5.0f, 5.0f, 10.0f, 10.0f);
+    expect_rect(i.value_or(gm::Rect2{}), 5.0f, 5.0f, 10.0f, 10.0f);
 }
 
 TEST(Rect2, IntersectionNoneWhenTouchingOrApart) {
@@ -93,6 +93,27 @@ TEST(Rect2, Merge) {
                 0.0f, 0.0f, 6.0f, 8.0f);
 }
 
+#ifndef NDEBUG
 TEST(Rect2, ReversedCornersAsserts) {
     EXPECT_DEATH(static_cast<void>(gm::Rect2(gm::Point2{5.0f, 0.0f}, gm::Point2{0.0f, 5.0f})), "");
+}
+#endif
+
+TEST(Rect2, Translate) {
+    const gm::Rect2 r{gm::Point2{0.0f, 0.0f}, gm::Point2{10.0f, 4.0f}};
+    expect_rect(gm::translate(r, gm::Vec2{3.0f, -2.0f}), 3.0f, -2.0f, 13.0f, 2.0f);
+}
+
+TEST(Rect2, IsEmpty) {
+    const gm::Rect2 flat{gm::Point2{0.0f, 0.0f}, gm::Point2{10.0f, 0.0f}};   // zero height
+    EXPECT_TRUE(gm::is_empty(gm::Rect2{}));
+    EXPECT_TRUE(gm::is_empty(flat));
+    EXPECT_FALSE(gm::contains(flat, gm::Point2{0.0f, 0.0f}));   // empty contains nothing
+    EXPECT_FALSE(gm::is_empty(gm::Rect2{gm::Point2{0.0f, 0.0f}, gm::Point2{10.0f, 4.0f}}));
+}
+
+TEST(Rect2, ApproxEq) {
+    const gm::Rect2 r{gm::Point2{0.0f, 0.0f}, gm::Point2{1.0f, 1.0f}};
+    EXPECT_TRUE(gm::approx_eq(r, gm::Rect2{gm::Point2{0.0f, 0.0f}, gm::Point2{1.0f, 1.0000005f}}));
+    EXPECT_FALSE(gm::approx_eq(r, gm::Rect2{gm::Point2{0.0f, 0.0f}, gm::Point2{1.0f, 1.001f}}));
 }
