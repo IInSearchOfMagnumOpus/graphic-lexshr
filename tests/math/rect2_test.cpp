@@ -97,6 +97,15 @@ TEST(Rect2, Merge) {
 TEST(Rect2, ReversedCornersAsserts) {
     EXPECT_DEATH(static_cast<void>(gm::Rect2(gm::Point2{5.0f, 0.0f}, gm::Point2{0.0f, 5.0f})), "");
 }
+
+TEST(Rect2, ToPhysicalZeroScaleAsserts) {
+    EXPECT_DEATH((void)gm::to_physical(gm::Rect2{}, 0.0f), "Assertion failed");
+}
+
+TEST(Point2, ToLogicalZeroScaleAsserts) {
+    EXPECT_DEATH((void)gm::to_logical(gm::Point2{}, 0.0f), "Assertion failed");
+}
+
 #endif
 
 TEST(Rect2, Translate) {
@@ -116,4 +125,29 @@ TEST(Rect2, ApproxEq) {
     const gm::Rect2 r{gm::Point2{0.0f, 0.0f}, gm::Point2{1.0f, 1.0f}};
     EXPECT_TRUE(gm::approx_eq(r, gm::Rect2{gm::Point2{0.0f, 0.0f}, gm::Point2{1.0f, 1.0000005f}}));
     EXPECT_FALSE(gm::approx_eq(r, gm::Rect2{gm::Point2{0.0f, 0.0f}, gm::Point2{1.0f, 1.001f}}));
+}
+
+TEST(Rect2, ToPhysicalKeepsNeighboursTouching) {
+    // Three 1-pixel boxes at scale 1.5: the table from part 2.
+    const gm::Rect2 a = gm::to_physical(gm::Rect2{gm::Point2{0.0f, 0.0f}, gm::Point2{1.0f, 1.0f}}, 1.5f);
+    const gm::Rect2 b = gm::to_physical(gm::Rect2{gm::Point2{1.0f, 0.0f}, gm::Point2{2.0f, 1.0f}}, 1.5f);
+    const gm::Rect2 c = gm::to_physical(gm::Rect2{gm::Point2{2.0f, 0.0f}, gm::Point2{3.0f, 1.0f}}, 1.5f);
+    expect_rect(a, 0.0f, 0.0f, 2.0f, 2.0f);
+    expect_rect(b, 2.0f, 0.0f, 3.0f, 2.0f);
+    expect_rect(c, 3.0f, 0.0f, 5.0f, 2.0f);
+}
+
+TEST(Rect2, ToPhysicalWholeScale) {
+    expect_rect(gm::to_physical(gm::Rect2{gm::Point2{10.0f, 20.0f}, gm::Point2{30.0f, 40.0f}}, 2.0f),
+                20.0f, 40.0f, 60.0f, 80.0f);
+}
+TEST(Point2, ToLogical) {
+    const gm::Point2 p = gm::to_logical(gm::Point2{300.0f, 150.0f}, 1.5f);
+    EXPECT_EQ(p.x(), 200.0f);
+    EXPECT_EQ(p.y(), 100.0f);
+}
+
+TEST(Point2, ToLogicalKeepsFractions) {
+    const gm::Point2 p = gm::to_logical(gm::Point2{3.0f, 0.0f}, 2.0f);
+    EXPECT_EQ(p.x(), 1.5f);   // between two logical pixels: no rounding
 }

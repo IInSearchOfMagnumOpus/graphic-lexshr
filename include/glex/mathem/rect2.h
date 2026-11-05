@@ -83,4 +83,19 @@ namespace glex::mathem {
         return approx_eq(a.min(), b.min()) && approx_eq(a.max(), b.max());
     }
 
+    // Logical -> physical pixels, for a rect measured from the window's corner.
+    // Rounds each corner, never the size, so rects that touch still touch: no gaps, no overlap.
+    [[nodiscard]] inline Rect2 to_physical(Rect2 r, float scale) {
+        GLEX_ASSERT(scale > 0.0f);
+        const Point2 lo{std::round(r.min().x() * scale), std::round(r.min().y() * scale)};
+        const Point2 hi{std::round(r.max().x() * scale), std::round(r.max().y() * scale)};
+        return Rect2{lo, hi};
+    }
+
+    // Physical -> logical pixels, for a point measured from the window's corner.
+    // No rounding: a mouse can sit between logical pixels.
+    [[nodiscard]] constexpr Point2 to_logical(Point2 p, float scale) {
+        GLEX_ASSERT(scale > 0.0f);
+        return Point2{p.x() / scale, p.y() / scale};
+    }
 } // namespace glex::mathem
